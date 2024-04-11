@@ -50,7 +50,7 @@ public:
         for (const auto& combo : possibleCombinations) {
             bool A = combo[0];
             bool B = combo[1];
-            results.push_back(A && !B); 
+            results.push_back(A && B); 
         }
 
         /* First, the table header is printed, then we loop through the possibleCombinations vector expressed above, and print out the results, followed by a newline.*/
