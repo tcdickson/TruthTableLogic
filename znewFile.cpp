@@ -210,13 +210,12 @@ public:
     vector<vector<bool>> possibleCombinations = {
           {0, 0, 0}, {0, 0, 1}, {0, 1, 0}, {0, 1, 1},
             {1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}};
-    cout << "A B | OUTCOME\n"
+    cout << "A B C | OUTCOME\n"
          << "---------\n";
     for (const auto &combo : possibleCombinations) {
       table["A"] = combo[0];
       table["B"] = combo[1];
       table["C"] = combo[2];
-
 
       cout << "user input: " << userInput << endl;
       istringstream exprStream(userInput);
