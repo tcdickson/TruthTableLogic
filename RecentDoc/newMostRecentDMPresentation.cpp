@@ -4,16 +4,7 @@ Name Convention: CSC1060_tdickson_M3Project
 
 The following program generates a truth table in binary format based on a
 logical connective. I've spent quite a bit of time learning about tokens and
-token parsing. Initially I thought this would be a straightforward program.
-However, when I realized C++ does not allow you to parse user input to be
-evaluated as logical connectives, the complexity of the assignment increased
-quite a bit for me.
-
-Currently, the code is able to evaluate 2 variable logical connectives
-accurately using &&, and ||, and most instances of !. Currently, the !
-expression is unable to acurately be parsed if it's the second expression
-immediately following a separate expression i.e. A && !B. However, !A && B is
-able to be parsed.
+token parsing.
 
 I had to do research to figure out how to parse tokens, and I took inspiration
 from code used to build a calculator program from this site:
@@ -21,7 +12,6 @@ https://www.stroustrup.com/3rd_code.html
 
 Next steps:
 
--Code logic to loop until user enters -1 (quits program)
 
 -Explore defining logical connectives as enums, and passing the enum functions
 into the gernerateFor<Two>Variables functions.
@@ -63,13 +53,12 @@ double error(const char *s) {
   return 1;
 }
 /*Tokens for logical operators are defined in TokenValue enum */
-enum TokenValue { NONE, END, NUMBER, DISPLAY, AND, OR, NOT, IMPLIES, LP, RP };
+enum TokenValue {NONE, END, DISPLAY, AND, OR, NOT, IMPLIES, LP, RP };
 
 TokenValue currTok;
 string stringValue;
-/*The getToken function recieves iser inpue passed from OR, AND, and NOT
- * functions. The orEvaluation, andEvaluation, and NotEvaluation use this
- * function to confirm what expression was passed. */
+/*The getToken function is called to determine which tokens were identified. Each row is cycled through, and is evaluated if they reach a recognized function. Specific itentifiers are recognized as Char values, and subsequently parsed into Token values. OR, AND, IMPLIES, NOT, and left and right Parentheses all are token values recognized be respective functions. */
+
 TokenValue getToken(istream &input) {
   char ch;
   while (input.get(ch) && (ch == '\n' || isspace(ch)))
@@ -150,7 +139,7 @@ TokenValue getToken(istream &input) {
 
   return currTok = NONE;
 }
-
+/*Initialization of functions handling parsing of tokens*/
 bool orEvaluation(istream &input, bool get);
 bool notEvaluation(istream &input, bool get);
 bool andEvaluation(istream &input, bool get);
@@ -235,6 +224,13 @@ bool impliesEvaluation(istream &input, bool get) {
   return left;
 }
 
+/*/*The parenthesisEvaluation accepts user inputed expression as a stream, and immediately
+ * calls the getToken function in order to establish which logical operator the
+ * user inputed. Then, the parenthesisEvaluation establishes positioning by passing
+ * the input to the impliesEvaluation, which passes it to orEvaluation, andEvaluation, and notEvaluation. This is based on logical expression order of precedence. If a token is identified, it moves into the while loop for evaluation*/
+
+ /*if current token equals LP,, we need to evauate the variable on the left, with the variable on the right. That means we must check first for any other TOKEN value by callint the getToken function, then we need to check it for every possible value. Therefore we call the next function again, and it cycles performs a check for every possible outcome*/
+
 bool parenthesisEvaluation(istream &input, bool get) {
   if (get)
     getToken(input);
@@ -249,14 +245,17 @@ bool parenthesisEvaluation(istream &input, bool get) {
   return impliesEvaluation(input, false);
 }
 
+
+
 bool expression(istream &input, bool get) {
   return parenthesisEvaluation(input, get);
 }
-/*The following function generates a truth table in binary. Ones and zeros for readability.
-First, all possible values are stored in a vector. The first number in the bracket relates to the fact that truth table's always display constants for the first two colums.*/
 
-/*Within the for loop, possible the combinations are looped through and the results of the inputed logical expression are appended onto the end of the constants for the first two rows of the truth table via the push_back command*/
-/* First, the table header is printed, then we loop through the possibleCombinations vector expressed above, and print out the results, followed by a newline.*/
+/* The truthTable class holds different constant combinations for standard 2,
+ * 3, 4 and 5 variable combinations. Additionally, user input is passed into a stream,
+ * then subsequently passed into the orEvaluation function. orEvaluation takes a
+ * boolean value to generate truth table representations of 1s and 0s */
+
 class TruthTable {
 public:
   void generateForTwoVariables() {
@@ -325,8 +324,7 @@ public:
 
       bool result = expression(exprStream, true);
 
-      // cout << "left par: " << leftParenCount
-      //      << " right par: " << rightParenCount << endl;
+
 
       if (leftParenCount != rightParenCount) {
         error("Mismatched parentheses");
@@ -363,8 +361,6 @@ public:
 
       bool result = expression(exprStream, true);
 
-      // cout << "left par: " << leftParenCount << "right par: " << rightParenCount
-      //      << endl;
       if (leftParenCount != rightParenCount) {
         error("Mismatched parentheses");
       }
@@ -374,6 +370,8 @@ public:
     }
   }
 };
+/*The validateInput function ensures the correct input has been entered for whichever truth table generation function has been called. For example, if the user chooses input of 2, and they enter 3 variables, it prints a custom error message and allows for an additional entry.*/
+
 bool validateInput(const string &input, int varCount) {
   set<char> variables;
   for (char ch : input) {
@@ -398,8 +396,10 @@ bool validateInput(const string &input, int varCount) {
 int main(int argc, char *argv[]) {
   TruthTable table;
   int firstInput;
-  do {
+cout << "" << endl;
 
+  do {
+  
     cout << "Enter 2 for a logical expression involving two variables\n";
     cout << "Enter 3 for a logical expression involving three variables\n";
     cout << "Enter 4 for a logical expression involving four variables\n";
@@ -415,13 +415,13 @@ int main(int argc, char *argv[]) {
     }
 
     if (firstInput < 2 || firstInput > 5) {
-      cout << "Invalid choice. Please enter 2, 3, 4, or 0 to exit.\n";
+      cout << "Invalid choice. Please enter 2, 3, 4, 5, or 0 to exit.\n";
       continue;
     }
 
     while (true) {
       cout << "Enter " << firstInput
-           << " Variable Logical Expression (i.e a && b) \n";
+           << " Variable Logical Expression i.e: a && b \n";
       getline(cin, userInput);
 
       if (validateInput(userInput, firstInput)) {
