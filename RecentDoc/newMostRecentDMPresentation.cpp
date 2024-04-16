@@ -1,25 +1,10 @@
 /*
-Course ID: CSC1060X02
-Name Convention: CSC1060_tdickson_M3Project
-
-The following program generates a truth table in binary format based on a
-logical connective. I've spent quite a bit of time learning about tokens and
-token parsing.
-
-I had to do research to figure out how to parse tokens, and I took inspiration
-from code used to build a calculator program from this site:
+The following program generates a truth table in binary format based on a logical expression. 
+I took inspiration from code used to build a calculator program from this site:
 https://www.stroustrup.com/3rd_code.html
 
 Next steps:
-
-
--Explore defining logical connectives as enums, and passing the enum functions
-into the gernerateFor<Two>Variables functions.
-
--Expanding the code to take up to at least 8 variables (this will force me to
-write all 256 possible outcomes) into the code.
-
-- Create Logic circuit program after logic is fully written to generate the
+Create Logic circuit program after logic is fully written to generate the
 table.
 */
 
@@ -390,13 +375,15 @@ bool validateInput(const string &input, int varCount) {
   return true;
 }
 
+
 /*the main function allows users to input the expression. user input is passed
  * as an argument into the main function, and subsequently, values are generated
  * based on various tables. */
 int main(int argc, char *argv[]) {
   TruthTable table;
   int firstInput;
-cout << "" << endl;
+
+cout << "\nWelcome to the Truth Table Generator. This program receives a logical expression as a series of a connectives, and parses the output as a binary representation of a truth table. Each logical connective is replaced by universal programming logical operators in accordance with the following map: \n ¬ = !\n V = ||\n ∧ = &&\n → = -> \n\n All variables are replaced with a,b,c,d, and e for simplicity.\n Therefore, the following statement: (¬ R V ¬F) →(S ∧ L) is entered as: (!a || !b) -> (c && d)\n" << endl;
 
   do {
   
