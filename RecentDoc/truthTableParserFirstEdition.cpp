@@ -1,6 +1,4 @@
 /*
-Course ID: CSC1060X02
-Name Convention: CSC1060_tdickson_M3Project
 
 The following program generates a truth table in binary format based on a logical connective. Currently, the code is set up to evaluate either 1 or two variable connectives. The code can easily be adapted to take more. I'm keeping the code smaller until I fully am able to acomplish all of the program goals. Also, the logical connective is currently hardcoded into the functions. 
 

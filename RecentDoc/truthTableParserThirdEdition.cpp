@@ -1,13 +1,11 @@
 /*
-Course ID: CSC1060X02
-Name Convention: CSC1060_tdickson_M3Project
 
 The following program generates a truth table in binary format based on a
 logical connective. I've spent quite a bit of time learning about tokens and
 token parsing. Initially I thought this would be a straightforward program.
-However, when I realized C++ does not allow you to parse user input to be
-evaluated as logical connectives, the complexity of the assignment increased
-quite a bit for me.
+
+However, C++ does not allow you to parse user input to be
+evaluated as logical connectives, therefore the complexity of the assignment increased
 
 Currently, the code is able to evaluate 2 variable logical connectives
 accurately using &&, and ||, and most instances of !. Currently, the !

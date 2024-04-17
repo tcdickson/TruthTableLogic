@@ -3,7 +3,13 @@ The following program generates a truth table in binary format based on a logica
 I took inspiration from code used to build a calculator program from this site:
 https://www.stroustrup.com/3rd_code.html
 
+The program fully parses up to 5 variable logical connectives.
+
+The only exeption is when two identical parenthesis are encountered before a closing parenthesis is encountered. For example:
+ (!a || !b) -> (c && d) && ((c -> e) && !e)
+
 Next steps:
+Fix parenthesis bug
 Create Logic circuit program after logic is fully written to generate the
 table.
 */

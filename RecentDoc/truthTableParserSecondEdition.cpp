@@ -1,7 +1,4 @@
 /*
-Course ID: CSC1060X02
-Name Convention: CSC1060_tdickson_M3Project
-
 The following program generates a truth table in binary format based on a
 logical connective. I've spent quite a bit of time learning about tokens and
 token parsing. Initially I thought this would be a straightforward program.
