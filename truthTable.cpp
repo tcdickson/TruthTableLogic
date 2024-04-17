@@ -23,8 +23,7 @@ int main(int argc, char* argv[]) {
         cout << s << "  ";
         cout << t << "  ";
         
-        // Correctly use the obtained p, q, r, s, and t in the expression
-        // Also, explicitly convert the Boolean result to int for clear 0/ 1 output
+   
         cout << ((((p == 0) || (q == 1)) == (((r ^ t) == 1) || (s == 0))) ? 1 : 0);
         
         cout << endl;

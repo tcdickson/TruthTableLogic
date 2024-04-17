@@ -47,7 +47,6 @@ public:
         }
     }
 
-    // Method to generate a truth table for three variables
     void generateForThreeVariables() {
         vector<vector<bool>> combinations = {
             {0, 0, 0}, {0, 0, 1}, {0, 1, 0}, {0, 1, 1},

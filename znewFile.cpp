@@ -26,12 +26,12 @@ double error(const char *s) {
 enum TokenValue { NONE, END, NUMBER, DISPLAY, AND, OR, NOT, LP, RP };
 
 TokenValue currTok;
-string stringValue; // To hold variable names
+string stringValue; 
 
 TokenValue getToken(istream &input) {
   char ch;
   while (input.get(ch) && (ch == '\n' || isspace(ch)))
-    ; // Skip whitespace and newlines
+    ; 
 
   cout << "After read, EOF: " << input.eof() << ", Good: " << input.good()
        << ", Char: " << ch << endl;
@@ -46,7 +46,7 @@ TokenValue getToken(istream &input) {
   switch (ch) {
   case ';':
     cout << "Semicolon encountered, ending expression parsing." << endl;
-    return currTok = DISPLAY; // End of expression
+    return currTok = DISPLAY; 
   case '(':
   case ')':
   case '!':
@@ -65,7 +65,7 @@ TokenValue getToken(istream &input) {
   case '|':
     cout << "encountered |" << endl;
     if (input.get(ch) && ch == '|')
-      return currTok = OR; // Logical OR
+      return currTok = OR; 
     else {
       error("Bad token for |");
       if (ch != EOF)
@@ -75,7 +75,7 @@ TokenValue getToken(istream &input) {
   default:
     cout << "default hit" << endl;
     cout << " ----------------------------------" << endl;
-    if (isalpha(ch)) { // Handle alphabetic characters for variables
+    if (isalpha(ch)) { 
       stringValue = ch;
       cout << " value of ch here: " << ch << endl;
 
@@ -85,11 +85,10 @@ TokenValue getToken(istream &input) {
         stringValue.push_back(ch); // Accumulate full variable name
       }
 
-      // Now we've peeked ahead and only consumed alphanumeric characters.
+  
       cout << " stringValue after accumulation: " << stringValue << endl;
 
-      // No need to putback because we haven't read past the variable name or
-      // into the next token
+
       cout << " value of currTok here: " << currTok << endl;
       cout << " ----------------------------------" << endl;
 
@@ -100,7 +99,7 @@ TokenValue getToken(istream &input) {
     }
   }
 
-  return currTok = NONE; // Fallback, should not be reached
+  return currTok = NONE; 
 }
 
 bool orEvaluation(istream &input, bool get);
@@ -117,7 +116,7 @@ bool primaryExpression(istream &input, bool get) {
       return error("Unknown variable");
     }
     bool v = table[stringValue];
-    getToken(input); // Prepare for next token
+    getToken(input); 
     return v;
   }
   case END: {
@@ -130,27 +129,26 @@ bool primaryExpression(istream &input, bool get) {
 bool notEvaluation(istream &input, bool get) {
   if (get)
     getToken(input);
-  cout << "Current Token after getToken: " << currTok << endl; // Debug print
+  cout << "Current Token after getToken: " << currTok << endl; 
  while (currTok == NOT) {
     cout << "About to perform NOT operation.\n";
     return !primaryExpression(
-        input, true); // Apply NOT to the result of the primary expression
+        input, true); 
       cout << "currTok must not == NOT" << endl;
   }
   return primaryExpression(input,
-                           false); // If NOT is not the current token, just
-                                   // evaluate the primary expression
+                           false);
 }
 
 bool andEvaluation(istream &input, bool get) {
   if (get)
     getToken(input);
-  bool left = notEvaluation(input, false); // Evaluate the left side
+  bool left = notEvaluation(input, false);
 
   while (currTok == AND) {
     cout << "About to perform AND operation.\n";
-    getToken(input); // Correctly fetch the next token for the right operand
-    bool right = notEvaluation(input, true); // Evaluate the right side
+    getToken(input);
+    bool right = notEvaluation(input, true); 
     left = left && right;                  
   }
   return left;
@@ -158,18 +156,18 @@ bool andEvaluation(istream &input, bool get) {
 
 bool orEvaluation(istream &input, bool get) {
   if (get)
-    getToken(input); // Ensure we're starting with the correct token
+    getToken(input);
 
-  bool left = andEvaluation(input, false); // Evaluate the first operand
+  bool left = andEvaluation(input, false);
 
-  while (currTok == OR) { // Loop while there are OR operations to evaluate
+  while (currTok == OR) { 
     cout << "About to perform OR operation.\n";
 
-    getToken(input); // Fetch the next token to evaluate the right operand
-    bool right = andEvaluation(input, true); // Evaluate the right operand
-    left = left || right;                    // Apply the logical OR operation
+    getToken(input);
+    bool right = andEvaluation(input, true);
+    left = left || right;                  
   }
-  return left; // Return the result of OR operations
+  return left; 
 }
 
 void processInput(istream &inputStream) {
@@ -198,7 +196,7 @@ public:
       cout << "user input: " << userInput << endl;
       istringstream exprStream(userInput);
 
-      // Evaluate the expression with updated 'A' and 'B' values
+     
       bool result = orEvaluation(exprStream, true);
 
       cout << combo[0] << " " << combo[1] << " | " << result << "\n";
@@ -220,7 +218,7 @@ public:
       cout << "user input: " << userInput << endl;
       istringstream exprStream(userInput);
 
-      // Evaluate the expression with updated 'A' and 'B' values
+   
       bool result = orEvaluation(exprStream, true);
 
      cout << combo[0] << " " << combo[1] << " " << combo[2] << " | " << result
@@ -256,25 +254,21 @@ int main(int argc, char *argv[]) {
   cin >> firstInput;
   cin.ignore(
       numeric_limits<streamsize>::max(),
-      '\n'); // Clear the newline left in the input stream by 'cin >> input'
-
+      '\n'); 
   if (argc > 1) {
-    // If an expression is provided as a command-line argument, use it
-    // directly
+ 
     userInput = argv[1];
   } else {
-    // Otherwise, prompt the user for input
     string prompt = (firstInput == 2) ? "Enter 2 Variable Logical Expression: "
                                       : "Enter 3 Variable Logical Expression: ";
     cout << prompt;
     getline(cin,
-            userInput); // Directly use getline to capture the entire line of
-                        // input
+            userInput); 
   }
 
-  cout << "User input: " << userInput << "\n"; // Confirm the captured userInput
+  cout << "User input: " << userInput << "\n"; 
 
-  // Now that userInput should be correctly populated, proceed with evaluation
+
   if (firstInput == 2) {
     table.generateForTwoVariables();
   } else if (firstInput == 3) {

@@ -27,7 +27,6 @@ void generateTruthTable(function<bool(bool, bool, bool)> logicFunction) {
 
 int main() {
     auto logicExpr = [](bool p, bool q, bool r) -> bool {
-        // Example logic: (p || !r) && (!p || (q || !r))
         return (p || !r) && (!p || (q || !r));
     };
 

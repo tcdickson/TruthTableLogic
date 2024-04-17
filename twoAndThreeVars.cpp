@@ -12,11 +12,9 @@ void generateTruthTableForTwoVariables() {
     for (const auto& combo : combinations) {
         bool A = combo[0];
         bool B = combo[1];
-        // Example logical expression for two variables
-        results.push_back(A || !B); // Modify this line for different expressions
+        results.push_back(A || !B); 
     }
 
-    // Print the truth table
     cout << "A B | Result\n";
     cout << "---------\n";
     for (size_t i = 0; i < combinations.size(); ++i) {
@@ -36,11 +34,9 @@ void generateTruthTableForThreeVariables() {
         bool A = combo[0];
         bool B = combo[1];
         bool C = combo[2];
-        // Example logical expression for three variables
         results.push_back((A && B) || (B && C)); 
     }
 
-    // Print the truth table
     cout << "A B C | Result\n";
     cout << "-----------\n";
     for (size_t i = 0; i < combinations.size(); ++i) {

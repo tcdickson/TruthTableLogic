@@ -31,9 +31,7 @@ class ExpressionEvaluator {
 public:
   bool evaluate(const string &expression,
                 const unordered_map<string, bool> &variables) {
-    // For simplicity, this example does not handle complex expressions or
-    // operator precedence properly. It assumes expressions are simple, like "A
-    // AND B" or "A OR NOT B".
+
     vector<string> tokens = tokenize(expression);
     stack<bool> evalStack;
 
@@ -59,7 +57,7 @@ public:
 
 private:
   vector<string> tokenize(const string &expression) {
-    // Simple tokenizer that splits the expression by spaces for this example.
+
     vector<string> tokens;
     size_t start = 0, end = 0;
     while ((end = expression.find(' ', start)) != string::npos) {
@@ -143,7 +141,7 @@ int main() {
     string userInput;
 
     cout << "Enter your logical expression using A and B (e.g., 'A AND B', 'A OR NOT B'): ";
-    getline(cin, userInput); // Use getline to include spaces in the input
+    getline(cin, userInput); 
 
     table.generateForTwoVariables(userInput);
 

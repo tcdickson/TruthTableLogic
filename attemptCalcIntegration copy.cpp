@@ -25,10 +25,10 @@ enum TokenValue {
   NONE,
   END,
 //   RESET = ';',
-  NUMBER,    // Placeholder for boolean values
-  NAME,      // Placeholder for variables like 'A' and 'B'
-  AND,       // Logical AND represented without using '&&'
-  OR,        // Logical OR represented without using '||'
+  NUMBER,  
+  NAME,      
+  AND,       
+  OR,       
   NOT = '!',
   LP = '(',
   RP = ')'
@@ -36,8 +36,8 @@ enum TokenValue {
 
 
 TokenValue currTok;;
-bool boolValue;     // To hold the boolean value of the expression
-string stringValue; // To hold variable names
+bool boolValue;     
+string stringValue; 
 
 TokenValue getToken() {
     char ch;
@@ -55,7 +55,7 @@ TokenValue getToken() {
     switch (ch) {
     case ';':
     case '\n':
-        // return currTok = RESET;
+        
     case '(':
     case ')':
     case '!':
@@ -63,19 +63,18 @@ TokenValue getToken() {
     case '&':
         if (input->get(ch) && ch == '&') {
          cout << "ch value: " << ch << endl; //debug
-            return currTok = AND; // Correctly identified as logical AND
-
+            return currTok = AND; 
         } else {
             error("Bad token for &");
-            if (ch != EOF) input->putback(ch); // Safely put back the character if it's not EOF
+            if (ch != EOF) input->putback(ch); 
             return currTok = NONE;
         }
     case '|':
         if (input->get(ch) && ch == '|') {
-            return currTok = OR; // Correctly identified as logical OR
+            return currTok = OR; 
         } else {
             error("Bad token for |");
-            if (ch != EOF) input->putback(ch); // Safely put back the character if it's not EOF
+            if (ch != EOF) input->putback(ch); 
             return currTok = NONE;
         }
     default:
@@ -93,26 +92,26 @@ TokenValue getToken() {
 
 
 bool expr(bool); 
-bool prim(bool get) { // Handle primary expressions including NOT
+bool prim(bool get) { 
   if (get)
     getToken();
 
   switch (currTok) {
-  case NOT: // Logical NOT operation
-    cout << "About to perform NOT operation, left value: " << left << endl;    // Debug print current 
+  case NOT: 
+    cout << "About to perform NOT operation, left value: " << left << endl;     
 
     return !prim(true);
   case LP: {
-      cout << "About to perform LP operation, left value: " << left << endl;    // Debug print current 
+      cout << "About to perform LP operation, left value: " << left << endl;    
 
     bool e = expr(true);
     if (currTok != RP)
       return error(") expected");
-    getToken(); // Consume ')'
+    getToken(); 
     return e;
   }
 case NAME: {
-    cout << "Evaluating variable: " << stringValue << " Current Token: " << currTok << endl; // Updated debug print
+    cout << "Evaluating variable: " << stringValue << " Current Token: " << currTok << endl; 
     if (table.find(stringValue) == table.end()) {
         return error("Unknown variable");
     }
@@ -131,25 +130,25 @@ bool term(bool get) {
   if (get) getToken();
   bool left = prim(get);
 
-  while (currTok == AND) { // Directly check if the next operation is AND
-  cout << "About to perform AND operation, left value: " << left << endl;    // Debug print current 
-    getToken(); // Move to the next token before evaluating the right operand
-    left = left && prim(true); // Evaluate the AND operation
+  while (currTok == AND) { 
+  cout << "About to perform AND operation, left value: " << left << endl;   
+    getToken(); 
+    left = left && prim(true); 
   }
-  return left; // Return the result of AND operations or the result of prim if no AND
+  return left; 
 }
 
 bool expr(bool get) {
   if (get) getToken();
 
-  bool left = term(get); // Evaluate the left side (which might include AND operations)
+  bool left = term(get); 
 
-  while (currTok == OR) { // Only continue if an OR operation is present
+  while (currTok == OR) {
   cout << "About to perform OR operation, left value: " << left << endl;    // Debug print current 
-    getToken(); // Move to the next token before evaluating the right operand
-    left = left || term(true); // Evaluate the OR operation with the next term
+    getToken(); 
+    left = left || term(true); 
   }
-  return left; // Return the result of the expression, including any OR operations
+  return left;
 }
 
 
@@ -177,14 +176,11 @@ public:
             table["A"] = combo[0];
             table["B"] = combo[1];
 
-            // Set up input stream from the user's expression
+          
             istringstream exprStream(userInput);
-            input = &exprStream; // Set the global input pointer to our new stream
+            input = &exprStream; 
 
-            // Reset parsing state if necessary
-            // currTok = RESET; // Reset the current token
-
-            // Evaluate the expression with updated 'A' and 'B' values
+           
             bool result = expr(true);
 
             cout << combo[0] << " " << combo[1] << " | " << result << "\n";
@@ -199,11 +195,11 @@ int main(int argc, char* argv[]) {
     TruthTable table;
 
     if (argc > 1) {
-        // If an expression is provided as a command-line argument
+        
         istringstream argInput(argv[1]);
         processInput(argInput);
     } else {
-        // Otherwise, read the expression from standard input
+        
         processInput(std::cin);
     }
 

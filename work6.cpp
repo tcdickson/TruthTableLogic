@@ -26,34 +26,34 @@ enum TokenValue {
   NONE,
   END,
   //   RESET = ';',
-  NUMBER,  // Placeholder for boolean values
-  DISPLAY, // Placeholder for variables like 'A' and 'B'
-  AND,     // Logical AND represented without using '&&'
-  OR,      // Logical OR represented without using '||'
+  NUMBER, 
+  DISPLAY, 
+  AND,    
+  OR,     
   NOT = '!',
   LP = '(',
   RP = ')'
 };
 
 TokenValue currTok;
-bool boolValue;     // To hold the boolean value of the expression
-string stringValue; // To hold variable names
+bool boolValue;     
+string stringValue; 
 
 TokenValue getToken(istream &input) {
   char ch;
-  if (!(input >> ws >> ch)) { // Skip whitespace and attempt to read a character
-    return NONE;              // No more input or an error occurred
+  if (!(input >> ws >> ch)) { 
+    return NONE;           
   }
 
   switch (ch) {
   case '&':
     if (input.get(ch) && ch == '&')
-      return AND;      // Logical AND
-    input.putback(ch); // In case it's not a logical AND
+      return AND;      
+    input.putback(ch);
     break;
   case '|':
     if (input.get(ch) && ch == '|')
-      return OR; // Logical OR
+      return OR; 
     input.putback(ch);
     break;
   case '(':
@@ -63,20 +63,19 @@ TokenValue getToken(istream &input) {
   case '!':
     return NOT;
   default:
-    if (isalpha(ch)) { // Check if it's a variable
+    if (isalpha(ch)) {
       stringValue = ch;
       while (input.get(ch) && isalnum(ch))
         stringValue.push_back(ch);
-      input.putback(ch); // Put back the last character read that's not part of
-                         // the variable
+      input.putback(ch); 
       return DISPLAY;
     } else {
-      // Handle unexpected characters
+    
       error("Bad token");
-      return NONE; // You might want to handle this case differently
+      return NONE; 
     }
   }
-  return NONE; // Return NONE if none of the cases match
+  return NONE; 
 }
 
 bool orEvaluation(istream &input, bool get);
@@ -87,12 +86,12 @@ bool primaryExpression(istream &input, bool get) {
 
   if (currTok == NOT) {
     cout << "About to perform NOT operation, left value: " << left
-         << endl; // Debug print current
+         << endl; 
     return !primaryExpression(input, true);
 
   } else if (currTok == LP) {
     cout << "About to perform LP operation, left value: " << left
-         << endl; // Debug print current
+         << endl; 
     bool e = orEvaluation(input, true);
     if (currTok != RP)
       return error(") expected");
@@ -102,7 +101,7 @@ bool primaryExpression(istream &input, bool get) {
   } else if (currTok == DISPLAY) {
     
     cout << "Evaluating display variable: " << stringValue
-         << " Current Token: " << currTok << endl; // Updated debug print
+         << " Current Token: " << currTok << endl; 
     if (table.find(stringValue) == table.end()) {
       return error("Unknown variable");
     }
@@ -122,13 +121,12 @@ bool andEvaluation(istream &input, bool get) {
 
   while (currTok == AND) {
     cout << "About to perform AND operation, left value: " << left
-         << endl; // Debug print current
+         << endl; 
     getToken(
-        input); // Move to the next token before evaluating the right operand
-    left = left && primaryExpression(input, true); // Evaluate the AND operation
+        input); 
+    left = left && primaryExpression(input, true); 
   }
-  return left; // Return the result of AND operations or the result of prim if
-               // no AND
+  return left; 
 }
 
 bool orEvaluation(istream &input, bool get) {
@@ -137,19 +135,18 @@ bool orEvaluation(istream &input, bool get) {
 
   bool left = andEvaluation(
       input,
-      get); // Evaluate the left side (which might include AND operations)
+      get); 
 
-  while (currTok == OR) { // Only continue if an OR operation is present
+  while (currTok == OR) { 
     cout << "About to perform OR operation, left value: " << left
-         << endl; // Debug print current
+         << endl; 
     getToken(
-        input); // Move to the next token before evaluating the right operand
+        input); 
     left = left ||
            andEvaluation(input,
-                         true); // Evaluate the OR operation with the next term
+                         true); 
   }
-  return left; // Return the result of the expression, including any OR
-               // operations
+  return left; 
 }
 
 void processInput(istream &inputStream) {
@@ -175,10 +172,9 @@ public:
       table["A"] = combo[0];
       table["B"] = combo[1];
 
-      // Set up input stream from the user's expression
       istringstream exprStream(userInput);
 
-      // Evaluate the expression with updated 'A' and 'B' values
+
       bool result = orEvaluation(exprStream, true);
 
       cout << combo[0] << " " << combo[1] << " | " << result << "\n";
@@ -192,11 +188,10 @@ int main(int argc, char *argv[]) {
   TruthTable table;
 
   if (argc > 1) {
-    // If an expression is provided as a command-line argument
+
     istringstream argInput(argv[1]);
     processInput(argInput);
   } else {
-    // Otherwise, read the expression from standard input
     processInput(std::cin);
   }
 

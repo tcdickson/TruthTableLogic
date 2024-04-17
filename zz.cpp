@@ -14,9 +14,8 @@ vector<vector<bool>> threeVarTable = {{0, 0, 0}, {0, 0, 1}, {0, 1, 0},
                                       {1, 1, 0}, {1, 1, 1}};
 
 string userInput;
-// string stringValue;
-// vector<vector<bool>> *currentTable;
-int currentRow = 0; // Index of the current row being evaluated in the table
+
+int currentRow = 0; 
 int no_of_errors = 0;
 
 double error(const char *s) {
@@ -34,21 +33,20 @@ public:
   TruthTable() {}
 
   void generateForTwoVariables() {
-    currentTable = &twoVarTable; // Point to the two variable table
+    currentTable = &twoVarTable; 
 
-    evaluateCurrentTable(); // Evaluate using the current table
+    evaluateCurrentTable(); 
   }
 
   void generateForThreeVariables() {
-    currentTable = &threeVarTable; // Point to the three variable table
-    evaluateCurrentTable();        // Evaluate using the current table
+    currentTable = &threeVarTable; 
+    evaluateCurrentTable();     
   }
-  // bool orEvaluation(istream &input, bool get);
 
   TokenValue currTok;
   TokenValue getToken(istream &input) {
     char ch;
-    while (input.get(ch) && (ch == '\n' || isspace(ch))); // Skip whitespace and newlines
+    while (input.get(ch) && (ch == '\n' || isspace(ch))); 
 
     cout << "After read, EOF: " << input.eof() << ", Good: " << input.good()
          << ", Char: " << ch << endl;
@@ -65,17 +63,16 @@ public:
     switch (ch) {
     case ';':
       cout << "Semicolon encountered, ending expression parsing." << endl;
-      return currTok = END; // End of expression
+      return currTok = END;
     case '(':
     case ')':
     case '!':
-      // return currTok = TokenValue(ch);  // Direct mapping for
-      // single-character tokens
+      // return currTok = TokenValue(ch);  
     case '&':
       cout << "encountered &" << endl;
 
       if (input.get(ch) && ch == '&')
-        return currTok = AND; // Logical AND
+        return currTok = AND; 
       else {
         error("Bad token for &");
         if (ch != EOF)
@@ -86,7 +83,7 @@ public:
           cout << "encountered |" << endl;
 
       if (input.get(ch) && ch == '|')
-        return currTok = OR; // Logical OR
+        return currTok = OR; 
       else {
         error("Bad token for |");
         if (ch != EOF)
@@ -94,11 +91,11 @@ public:
         return currTok = NONE;
       }
     default:
-      if (isalpha(ch)) { // Handle alphabetic characters for variables
+      if (isalpha(ch)) {
         stringValue = ch;
         while (input.get(ch) && isalnum(ch))
-          stringValue.push_back(ch); // Accumulate full variable name
-        input.putback(ch);           // Put back the last character read
+          stringValue.push_back(ch);
+        input.putback(ch);          
         return currTok = DISPLAY;
       } else {
         error("Bad token");
@@ -106,7 +103,7 @@ public:
       }
     }
 
-    return currTok = NONE; // Fallback, should not be reached
+    return currTok = NONE; 
   }
 
   bool primaryExpression(istream &input, bool get) {
@@ -130,7 +127,7 @@ public:
            << "\n";
 
       int varIndex =
-          stringValue[0] - 'A'; // Simple mapping: 'A' -> 0, 'B' -> 1, etc.
+          stringValue[0] - 'A'; 
       cout << "currentRow: " << currentRow << ", varIndex: " << varIndex
            << ", vector size: " << currentTable->at(currentRow).size() << "\n";
 
@@ -138,10 +135,9 @@ public:
         return error("Unknown variable");
       }
       bool v = currentTable->at(currentRow)[varIndex];
-      cout << "Value: " << v << "\n"; // Display the value being evaluated
+      cout << "Value: " << v << "\n"; 
       return v;
     }
-      // Handle other cases (NOT, LP, RP, etc.)
     }
     return error("Primary expected");
   }
@@ -149,21 +145,19 @@ public:
   bool andEvaluation(istream &input, bool get) {
     if (get)
       getToken(input);
-    bool left = primaryExpression(input, false); // Evaluate the left side
-
+    bool left = primaryExpression(input, false); 
     while (currTok == AND) {
       cout << "About to perform AND operation.\n";
-      getToken(input); // Correctly fetch the next token for the right operand
-      bool right = primaryExpression(input, true); // Evaluate the right side
-      left = left && right; // Apply the logical AND operation
+      getToken(input); 
+      bool right = primaryExpression(input, true); 
+      left = left && right; 
     }
     return left;
   }
 
   bool orEvaluation(istream &input, bool get) {
     cout << "entered orEvaluation " << userInput << "\n";
-    // cout << "testing pointer output in orEval: " << currentTable->size() <<
-    // endl;
+   
 
     if (get)
       getToken(input);
@@ -175,7 +169,7 @@ public:
       bool right = andEvaluation(input, true);
       left = left || right;
     }
-    return left; // Return the result of OR operations
+    return left; 
   }
 
 private:
@@ -183,7 +177,7 @@ private:
 
     if (!currentTable) {
       cout << "currentTable is nullptr.\n";
-      return; // Ensure the table is set
+      return; 
     }
     cout << "A B | OUTCOME\n"
          << "---------\n";
@@ -192,12 +186,11 @@ private:
       // cout << "Entering current table. User input: " << userInput << "\n";
       // cout << "testing pointer output: " << currentTable->size() << endl;
 
-      // Recreate exprStream for each iteration to ensure it starts fresh
+  
       istringstream exprStream(userInput);
 
       bool result = orEvaluation(exprStream, true);
 
-      // Output the combination and the result
       for (bool val : (*currentTable)[currentRow]) {
         cout << val << " ";
       }
@@ -215,25 +208,20 @@ int main(int argc, char *argv[]) {
   cin >> firstInput;
   cin.ignore(
       numeric_limits<streamsize>::max(),
-      '\n'); // Clear the newline left in the input stream by 'cin >> input'
+      '\n'); 
 
   if (argc > 1) {
-    // If an expression is provided as a command-line argument, use it
-    // directly
+  
     userInput = argv[1];
   } else {
-    // Otherwise, prompt the user for input
     string prompt = (firstInput == 2) ? "Enter 2 Variable Logical Expression: "
                                       : "Enter 3 Variable Logical Expression: ";
     cout << prompt;
     getline(cin,
-            userInput); // Directly use getline to capture the entire line of
-                        // input
+            userInput); 
   }
 
-  cout << "User input: " << userInput << "\n"; // Confirm the captured userInput
-
-  // Now that userInput should be correctly populated, proceed with evaluation
+  cout << "User input: " << userInput << "\n"; 
   if (firstInput == 2) {
     table.generateForTwoVariables();
   } else if (firstInput == 3) {

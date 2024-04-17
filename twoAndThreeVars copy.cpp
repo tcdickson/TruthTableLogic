@@ -1,9 +1,9 @@
 enum class Variable {
-    A, B, C // Extend as needed
+    A, B, C 
 };
 
 enum class LogicalOp {
-    AND, OR, NOT // Basic logical operations; extend as needed
+    AND, OR, NOT 
 };
 
 
@@ -46,10 +46,10 @@ int main() {
     cin >> choice;
 
     if (choice == 2) {
-        auto expr = [](bool A, bool B) -> bool { return A || !B; }; // Example expression
+        auto expr = [](bool A, bool B) -> bool { return A || !B; }; 
         tt.generateForTwoVariables(expr);
     } else if (choice == 3) {
-        auto expr = [](bool A, bool B, bool C) -> bool { return (A && B) || (B && C); }; // Example expression
+        auto expr = [](bool A, bool B, bool C) -> bool { return (A && B) || (B && C); }; 
         tt.generateForThreeVariables(expr);
     } else {
         cout << "Invalid choice. Please enter 2 or 3." << endl;
