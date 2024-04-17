@@ -408,7 +408,7 @@ cout << "\nWelcome to the Truth Table Generator. This program receives a logical
 
     while (true) {
       cout << "Enter " << firstInput
-           << " Variable Logical Expression i.e: a && b \n";
+           << " Variable Logical Expression: i.e: a && b \n";
       getline(cin, userInput);
 
       if (validateInput(userInput, firstInput)) {
