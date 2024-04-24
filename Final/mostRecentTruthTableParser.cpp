@@ -8,9 +8,21 @@ The program fully parses up to 5 variable logical connectives.
 The only exeption is when two identical parenthesis are encountered before a closing parenthesis is encountered. For example:
  (!a || !b) -> (c && d) && ((c -> e) && !e)
 
+Current program shortfalls: 
+
+* Currently, the left and right parenthesis evaluate only what is in between one left, and one right parenthesis. For example, the following logical expression would present an incorrect truth table:
+
+(!a || (c || !b))
+
+The parser evaluates the expressions one at a time. Therefore when a left parenthesis is encountered, it expects the next parenthesis to be a closing one. 
+
+* Absence of the biconditional if and only if (<->)
+* Absence of the Exclusive Or (XOR)
+
 Next steps:
-Fix parenthesis bug
-Create Logic circuit program after logic is fully written to generate the
+*Fix parenthesis bug
+*Addition of biconditional and exclisive or
+*Create Logic circuit program after logic is fully written to generate the
 table.
 */
 
@@ -389,6 +401,8 @@ int main(int argc, char *argv[]) {
   TruthTable table;
   int firstInput;
 
+
+// Instructions to the user.
 cout << "\nWelcome to the Truth Table Generator. This program receives a logical expression as a series of a connectives, and parses the output as a binary representation of a truth table. Each logical connective is replaced by universal programming logical operators in accordance with the following map: \n ¬ = !\n V = ||\n ∧ = &&\n → = -> \n\n All variables are replaced with a,b,c,d, and e for simplicity.\n Therefore, the following statement: (¬ R V ¬F) →(S ∧ L) is entered as: (!a || !b) -> (c && d)\n" << endl;
 
   do {
@@ -417,6 +431,7 @@ cout << "\nWelcome to the Truth Table Generator. This program receives a logical
            << " Variable Logical Expression: i.e: a && b \n";
       getline(cin, userInput);
 
+// Specific functions are invoked within the TruthTable class based on user input (denoted by a switch statement)
       if (validateInput(userInput, firstInput)) {
         switch (firstInput) {
         case 2:
