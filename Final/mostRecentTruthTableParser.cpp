@@ -11,8 +11,7 @@ Current program shortfalls:
 * Boilerplate code within TruthTable class
 
 Next steps:
-*Fix parenthesis bug
-*Addition of biconditional and exclisive or
+*Addition of exclusive or
 *Create Logic circuit program after logic is fully written to generate the
 table.
 */
@@ -443,7 +442,7 @@ int main(int argc, char *argv[]) {
           "output as a binary representation of a truth table. Each logical "
           "connective is replaced by universal programming logical operators "
           "in accordance with the following map: \n ¬ = !\n V = ||\n ∧ = &&\n "
-          "→ = -> \n\n All variables are replaced with a,b,c,d, and e for "
+          "→ = -> \n ↔ = <->\n\n All variables are replaced with a,b,c,d, and e for "
           "simplicity.\n Therefore, the following statement: (¬ R V ¬F) →(S ∧ "
           "L) is entered as: (!a || !b) -> (c && d)\n"
        << endl;
