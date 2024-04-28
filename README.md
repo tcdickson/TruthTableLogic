@@ -25,16 +25,16 @@ Displayed in [Figure 1](#figure-1)
     - Leveraging a modified version of the shunting algorithm, the program parses logical operators into tokens and characters.
     - It evaluates each row sequentially, storing results in a map and ultimately displaying them in a binary format as illustrated in [Figure 1](#figure-1).
 
-## ![Figure 1](link_to_image1)
+## ![Figure 1](RecentDoc/Images/activityDiagram.png)
 High-Level Programmatic Approach and Design
 
-## Example: ![Figure 2](link_to_image2)
+## Example: ![Figure 2](RecentDoc/Images/terminalExample.png)
 Figure 2 displays an example of a user interaction within the program. First, the program provides instruction to the user explaining how the program works. The user is prompted to input the number of characters their selected logical expression contains. The user selects “3” – denoting a three variable expression. Next, the program instructs the user to input their expression. The user inputs “(a || !b) → (a && b)”. Finally, the program performs the required calculations, displays the truth table as a binary representation, and asks the user if they wish to make another instruction.
 
-## Use Case Diagram: ![Figure 3](link_to_image3)
+## Use Case Diagram: ![Figure 3](RecentDoc/Images/useCase.png)
 Figure 3 represents the current use case diagram. The leftmost image represents the current use case: The user may choose the number of variables they wish to enter as a logical expression. They may input the logical expression and finally, choose to input another logical expression.
 
 The rightmost image represents the potential use case following program improvements. Future versions of the program will allow the user to engage the program to compute logic circuits and display them as a graphical representation.
 
-## Running Code: ![Figure 4](link_to_image4)
+## Running Code: ![Figure 4](RecentDoc/Images/terminal5Vars.png)
 Figure 4 depicts a screenshot of the program compiling and running.
