@@ -12,8 +12,8 @@ Users input a sequence of logical connectives and the program renders these inpu
 ## Primary Programmatic Approach
 The code leverages C and C++ libraries. All interaction takes place within the system terminal. Truth table results are displayed in binary format.
 
-## High-Level Programmatic Approach and Design
-Displayed in [Figure 1](#figure-1)
+## High-Level Programmatic Approach and Design: 
+ **Displayed in Figure 1** 
 1. **User Input Management:**
     - The application accepts logical expressions comprising variables labeled as a, b, c, d, and e.
     - Connectives are denoted using symbols like "||" for "∨" (or), "&&" for "∧" (and), and "!" for "¬" (not).
@@ -23,18 +23,34 @@ Displayed in [Figure 1](#figure-1)
     - The application processes user-provided logical expressions to produce the selected truth table graphical representation.
 3. **Truth Table Generation:**
     - Leveraging a modified version of the shunting algorithm, the program parses logical operators into tokens and characters.
-    - It evaluates each row sequentially, storing results in a map and ultimately displaying them in a binary format as illustrated in [Figure 1](#figure-1).
+    - It evaluates each row sequentially, storing results in a map and ultimately displaying them in a binary format as illustrated in Figure 1.
 
 ## ![Figure 1](RecentDoc/Images/activityDiagram.png)
-High-Level Programmatic Approach and Design
 
-## Example: ![Figure 2](RecentDoc/Images/terminalExample.png)
+**Figure 1**
+
+## Example:
+**Displayed in Figure 2** 
+
 Figure 2 displays an example of a user interaction within the program. First, the program provides instruction to the user explaining how the program works. The user is prompted to input the number of characters their selected logical expression contains. The user selects “3” – denoting a three variable expression. Next, the program instructs the user to input their expression. The user inputs “(a || !b) → (a && b)”. Finally, the program performs the required calculations, displays the truth table as a binary representation, and asks the user if they wish to make another instruction.
+ ![Figure 2](RecentDoc/Images/terminalExample.png)
+ 
+**Figure 2**
+ 
+## Use Case Diagram:
+**Displayed in Figure 3** 
 
-## Use Case Diagram: ![Figure 3](RecentDoc/Images/useCase.png)
 Figure 3 represents the current use case diagram. The leftmost image represents the current use case: The user may choose the number of variables they wish to enter as a logical expression. They may input the logical expression and finally, choose to input another logical expression.
 
 The rightmost image represents the potential use case following program improvements. Future versions of the program will allow the user to engage the program to compute logic circuits and display them as a graphical representation.
+![Figure 3](RecentDoc/Images/useCase.png)
 
-## Running Code: ![Figure 4](RecentDoc/Images/terminal5Vars.png)
+**Figure 3**
+
+## Running Code:
+**Displayed in Figure 4** 
+
 Figure 4 depicts a screenshot of the program compiling and running.
+ ![Figure 4](RecentDoc/Images/terminal5Vars.png)
+ 
+**Figure 4**
