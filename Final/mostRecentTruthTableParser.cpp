@@ -7,7 +7,6 @@ The program fully parses up to 5 variable logical connectives (can easily be ext
 
 Current program shortfalls:
 
-* Absence of the biconditional if and only if (<->)
 * Absence of the Exclusive Or (XOR)
 * Boilerplate code within TruthTable class
 
@@ -46,7 +45,7 @@ double error(const char *s) {
   return 1;
 }
 /*Tokens for logical operators are defined in TokenValue enum */
-enum TokenValue { NONE, END, DISPLAY, AND, OR, NOT, IMPLIES, LP, RP };
+enum TokenValue { NONE, END, DISPLAY, AND, OR, NOT, IMPLIES, LP, RP, BICONDITIONAL };
 
 TokenValue currTok;
 string stringValue;
@@ -118,6 +117,18 @@ TokenValue getToken(istream &input) {
         input.putback(ch);
       return currTok = NONE;
     }
+
+    case '<':
+    if (input.get(ch) && ch == '-') {
+        if (input.get(ch) && ch == '>') {
+            return currTok = BICONDITIONAL;
+        } else {
+            input.putback(ch);
+        }
+    }
+    error("Bad token for <->");
+    return currTok = NONE;
+
   default:
 
     if (isalpha(ch)) {
@@ -142,6 +153,8 @@ bool notEvaluation(istream &input, bool get);
 bool andEvaluation(istream &input, bool get);
 bool impliesEvaluation(istream &input, bool get);
 bool parenthesisEvaluation(istream &input, bool get);
+bool biconditionalEvaluation(istream &input, bool get);
+
 bool expression(istream &input, bool get);
 
 bool primaryExpression(istream &input, bool get) {
@@ -221,6 +234,19 @@ bool impliesEvaluation(istream &input, bool get) {
   return left;
 }
 
+bool biconditionalEvaluation(istream &input, bool get) {
+    bool left = impliesEvaluation(input, get);
+
+    while (currTok == BICONDITIONAL) {
+        getToken(input);
+        bool right = impliesEvaluation(input, true);
+        left = (left == right);  // True if both sides are equal
+    }
+    return left;
+}
+
+
+
 /*/*The parenthesisEvaluation accepts user inputed expression as a stream, and
  * immediately calls the getToken function in order to establish which logical
  * operator the user inputed. Then, the parenthesisEvaluation establishes
@@ -240,13 +266,13 @@ bool parenthesisEvaluation(istream &input, bool get) {
     getToken(input);
 
   while (currTok == LP) {
-    bool exprValue = impliesEvaluation(input, true);
+    bool exprValue = biconditionalEvaluation(input, true);
 
     getToken(input);
 
     return exprValue;
   }
-  return impliesEvaluation(input, false);
+  return biconditionalEvaluation(input, false);
 }
 
 bool expression(istream &input, bool get) {
@@ -266,6 +292,7 @@ public:
     leftParenCount = 0;
     rightParenCount = 0;
   }
+
   void generateForTwoVariables() {
     vector<vector<bool>> possibleCombinations = {
         {1, 1}, {1, 0}, {0, 1}, {0, 0}};
